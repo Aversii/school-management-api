@@ -1,0 +1,12 @@
+-- V1__
+CREATE TABLE Person (
+  id VARCHAR(63) PRIMARY KEY, 
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  password VARCHAR(50) NOT NULL,
+  birthDate DATE NOT NULL,
+  motherName VARCHAR(100) NOT NULL,
+  fatherName VARCHAR(100) NOT NULL,
+  telephone VARCHAR(20) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

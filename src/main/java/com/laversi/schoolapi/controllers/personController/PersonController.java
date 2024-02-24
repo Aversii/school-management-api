@@ -40,39 +40,23 @@ public class PersonController {
         return ResponseEntity.ok(convertToDto(savedPerson));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<PersonDTO> updatePerson(@PathVariable String id, @RequestBody PersonPutDTO person) {
+    public ResponseEntity<PersonPutDTO> updatePerson(@PathVariable String id, @RequestBody PersonPutDTO person) {
         Optional<PersonEntity> optionalPerson = repo.findById(id);
-        if (optionalPerson.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        if (optionalPerson.isEmpty()) {return ResponseEntity.notFound().build();}
     
         PersonEntity existingPerson = optionalPerson.get();
-        if (person.name() != null) {
-            existingPerson.setName(person.name());
-        }
-        if (person.email() != null) {
-            existingPerson.setEmail(person.email());
-        }
-        if (person.password() != null) {
-            existingPerson.setPassword(person.password());
-        }
-        if (person.birthDate() != null) {
-            existingPerson.setBirthDate(person.birthDate());
-        }
-        if (person.motherName() != null) {
-            existingPerson.setMotherName(person.motherName());
-        }
-        if (person.fatherName() != null) {
-            existingPerson.setFatherName(person.fatherName());
-        }
-        if (person.telephone() != null) {
-            existingPerson.setTelephone(person.telephone());
-        }
-    
+        if (person.name() != null) {existingPerson.setName(person.name());}
+        if (person.email() != null) {existingPerson.setEmail(person.email());}
+        if (person.password() != null) {existingPerson.setPassword(person.password());}
+        if (person.birthDate() != null) {existingPerson.setBirthDate(person.birthDate());}
+        if (person.motherName() != null) {existingPerson.setMotherName(person.motherName());}
+        if (person.fatherName() != null) {existingPerson.setFatherName(person.fatherName());}
+        if (person.telephone() != null) {existingPerson.setTelephone(person.telephone());}    
         PersonEntity updatedPerson = repo.save(existingPerson);
-        return ResponseEntity.ok(convertToDto(updatedPerson));
+
+        return ResponseEntity.ok(convertToPutDto(updatedPerson));
     }
-    
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePerson(@PathVariable String id) {
         repo.deleteById(id);
@@ -101,4 +85,17 @@ public class PersonController {
                 personEntity.getFatherName(),
                 personEntity.getTelephone());
     }
+
+    private PersonPutDTO convertToPutDto(PersonEntity personEntity) {
+        return new PersonPutDTO(
+                personEntity.getName(),
+                personEntity.getEmail(),
+                personEntity.getPassword(),
+                personEntity.getBirthDate(),
+                personEntity.getMotherName(),
+                personEntity.getFatherName(),
+                personEntity.getTelephone()
+        );
+    }
+
 }

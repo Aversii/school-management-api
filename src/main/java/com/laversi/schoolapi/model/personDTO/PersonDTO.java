@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+
 public record PersonDTO(
         @NotBlank String name,
         @NotBlank String email,
@@ -14,3 +15,4 @@ public record PersonDTO(
         @NotBlank String fatherName,
         String telephone
 ) {}
+

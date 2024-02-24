@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.laversi.schoolapi.model.personDTO.PersonDTO;
 import com.laversi.schoolapi.model.personEntity.PersonEntity;
 import com.laversi.schoolapi.repositories.PersonRepository;
+
+import jakarta.validation.Valid;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +35,7 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<PersonDTO> postPerson(@RequestBody PersonDTO person) {
+    public ResponseEntity<PersonDTO> postPerson(@Valid @RequestBody PersonDTO person) {
         PersonEntity savedPerson = repo.save(convertToEntity(person));
         return ResponseEntity.ok(convertToDto(savedPerson));
     }
@@ -74,7 +77,6 @@ public class PersonController {
 
     private PersonDTO convertToDto(PersonEntity personEntity) {
         return new PersonDTO(
-                personEntity.getId(),
                 personEntity.getName(),
                 personEntity.getEmail(),
                 personEntity.getPassword(),

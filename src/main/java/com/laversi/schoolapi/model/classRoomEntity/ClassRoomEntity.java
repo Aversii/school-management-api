@@ -19,9 +19,11 @@ public class ClassRoomEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
-    @Column(name = "name") 
     private String name;
+
+    public ClassRoomEntity(String name) {
+        this.name = name;
+    }
 }

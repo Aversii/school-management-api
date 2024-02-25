@@ -3,6 +3,6 @@ package com.laversi.schoolapi.model.courseDto;
 import jakarta.validation.constraints.NotBlank;
 
 public record CoursePostDTO(
-        String id,
+        int id,
         @NotBlank String name
 ){}

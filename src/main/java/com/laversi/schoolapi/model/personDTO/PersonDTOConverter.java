@@ -1,15 +1,14 @@
-package com.laversi.schoolapi.services;
+package com.laversi.schoolapi.model.personDTO;
 
 import org.springframework.stereotype.Service;
-import com.laversi.schoolapi.model.personDTO.PersonPostDTO;
-import com.laversi.schoolapi.model.personDTO.PersonGetDTO;
+
 import com.laversi.schoolapi.model.personDTO.PersonPutDTO;
 import com.laversi.schoolapi.model.personEntity.PersonEntity;
 
 @Service
 public class PersonDTOConverter {
 
-    PersonEntity convertToEntity(PersonPostDTO personDto, String id) {
+    public PersonEntity convertToEntity(PersonPostDTO personDto, String id) {
         return new PersonEntity(
                 id,
                 personDto.name(),
@@ -21,7 +20,7 @@ public class PersonDTOConverter {
                 personDto.telephone());
     }
 
-    PersonPostDTO convertToDto(PersonEntity personEntity) {
+    public PersonPostDTO convertToDto(PersonEntity personEntity) {
         return new PersonPostDTO(
                 personEntity.getId(),
                 personEntity.getName(),
@@ -33,7 +32,7 @@ public class PersonDTOConverter {
                 personEntity.getTelephone());
     }
 
-     PersonPutDTO convertToPutDto(PersonEntity personEntity) {
+     public PersonPutDTO convertToPutDto(PersonEntity personEntity) {
         return new PersonPutDTO(
                 personEntity.getName(),
                 personEntity.getEmail(),
@@ -44,7 +43,7 @@ public class PersonDTOConverter {
                 personEntity.getTelephone());
     }
 
-    PersonGetDTO convertToGetDto(PersonEntity personEntity) {
+    public PersonGetDTO convertToGetDto(PersonEntity personEntity) {
         return new PersonGetDTO(
                 personEntity.getId(),
                 personEntity.getName(),

@@ -1,6 +1,6 @@
 package com.laversi.schoolapi.model.courseDto;
 
 public record CourseGetDTO(
-        String id,
+        int id,
         String name
 ) {}

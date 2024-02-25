@@ -1,8 +1,6 @@
 package com.laversi.schoolapi.model.personDTO;
 
 import org.springframework.stereotype.Service;
-
-import com.laversi.schoolapi.model.personDTO.PersonPutDTO;
 import com.laversi.schoolapi.model.personEntity.PersonEntity;
 
 @Service

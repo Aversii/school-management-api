@@ -1,7 +1,7 @@
 package com.laversi.schoolapi.services;
 
 import org.springframework.stereotype.Service;
-import com.laversi.schoolapi.model.personDTO.PersonDTO;
+import com.laversi.schoolapi.model.personDTO.PersonPostDTO;
 import com.laversi.schoolapi.model.personDTO.PersonGetDTO;
 import com.laversi.schoolapi.model.personDTO.PersonPutDTO;
 import com.laversi.schoolapi.model.personEntity.PersonEntity;
@@ -9,7 +9,7 @@ import com.laversi.schoolapi.model.personEntity.PersonEntity;
 @Service
 public class PersonDTOConverter {
 
-    PersonEntity convertToEntity(PersonDTO personDto, String id) {
+    PersonEntity convertToEntity(PersonPostDTO personDto, String id) {
         return new PersonEntity(
                 id,
                 personDto.name(),
@@ -21,8 +21,8 @@ public class PersonDTOConverter {
                 personDto.telephone());
     }
 
-    PersonDTO convertToDto(PersonEntity personEntity) {
-        return new PersonDTO(
+    PersonPostDTO convertToDto(PersonEntity personEntity) {
+        return new PersonPostDTO(
                 personEntity.getId(),
                 personEntity.getName(),
                 personEntity.getEmail(),

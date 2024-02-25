@@ -38,7 +38,7 @@ public class PersonService {
         return personDTOConverter.convertToGetDto(personEntity);
     }
 
-    public PersonDTO createPerson(PersonDTO personDto) {
+    public PersonPostDTO createPerson(PersonPostDTO personDto) {
         String id = UUID.randomUUID().toString();
         PersonEntity personEntity = personDTOConverter.convertToEntity(personDto, id);
         PersonEntity savedPerson = personRepository.save(personEntity);

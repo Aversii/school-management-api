@@ -44,9 +44,9 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<PersonDTO> postPerson(@Valid @RequestBody PersonDTO person) {
+    public ResponseEntity<PersonPostDTO> postPerson(@Valid @RequestBody PersonPostDTO person) {
         try {
-            PersonDTO savedPerson = personService.createPerson(person);
+            PersonPostDTO savedPerson = personService.createPerson(person);
             return ResponseEntity.ok(savedPerson);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

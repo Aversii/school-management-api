@@ -2,17 +2,12 @@ package com.laversi.schoolapi.controllers.personController;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.laversi.schoolapi.model.personDTO.*;
-import com.laversi.schoolapi.model.personEntity.PersonEntity;
-import com.laversi.schoolapi.repositories.PersonRepository;
-
+import com.laversi.schoolapi.services.PersonService;
 import jakarta.validation.Valid;
-
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,76 +21,57 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class PersonController {
 
     @Autowired
-    private PersonRepository repo;
+    private PersonService personService;
 
     @GetMapping
-    public ResponseEntity<List<PersonEntity>> getAllPeople() {
-        List<PersonEntity> people = repo.findAll();
-        return ResponseEntity.ok(people);
+    public ResponseEntity<List<PersonGetDTO>> getAllPeople() {
+        try {
+            List<PersonGetDTO> people = personService.getAllPeople();
+            return ResponseEntity.ok(people);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PersonGetDTO> getPersonById(@PathVariable String id) {
+        try {
+            PersonGetDTO person = personService.getPersonById(id);
+            return ResponseEntity.ok(person);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
     public ResponseEntity<PersonDTO> postPerson(@Valid @RequestBody PersonDTO person) {
-        PersonEntity savedPerson = repo.save(convertToEntity(person));
-        return ResponseEntity.ok(convertToDto(savedPerson));
+        try {
+            PersonDTO savedPerson = personService.createPerson(person);
+            return ResponseEntity.ok(savedPerson);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<PersonPutDTO> updatePerson(@PathVariable String id, @RequestBody PersonPutDTO person) {
-        Optional<PersonEntity> optionalPerson = repo.findById(id);
-        if (optionalPerson.isEmpty()) {return ResponseEntity.notFound().build();}
-    
-        PersonEntity existingPerson = optionalPerson.get();
-        if (person.name() != null) {existingPerson.setName(person.name());}
-        if (person.email() != null) {existingPerson.setEmail(person.email());}
-        if (person.password() != null) {existingPerson.setPassword(person.password());}
-        if (person.birthDate() != null) {existingPerson.setBirthDate(person.birthDate());}
-        if (person.motherName() != null) {existingPerson.setMotherName(person.motherName());}
-        if (person.fatherName() != null) {existingPerson.setFatherName(person.fatherName());}
-        if (person.telephone() != null) {existingPerson.setTelephone(person.telephone());}    
-        PersonEntity updatedPerson = repo.save(existingPerson);
+        try {
+            PersonPutDTO updatedPerson = personService.updatePerson(id, person);
+            return ResponseEntity.ok(updatedPerson);
 
-        return ResponseEntity.ok(convertToPutDto(updatedPerson));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
+    
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePerson(@PathVariable String id) {
-        repo.deleteById(id);
-        return ResponseEntity.noContent().build();
+        try {
+            personService.deletePerson(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
-
-    private PersonEntity convertToEntity(PersonDTO personDto) {
-        return new PersonEntity(
-                null,
-                personDto.name(),
-                personDto.email(),
-                personDto.password(),
-                personDto.birthDate(),
-                personDto.motherName(),
-                personDto.fatherName(),
-                personDto.telephone());
-    }
-
-    private PersonDTO convertToDto(PersonEntity personEntity) {
-        return new PersonDTO(
-                personEntity.getName(),
-                personEntity.getEmail(),
-                personEntity.getPassword(),
-                personEntity.getBirthDate(),
-                personEntity.getMotherName(),
-                personEntity.getFatherName(),
-                personEntity.getTelephone());
-    }
-
-    private PersonPutDTO convertToPutDto(PersonEntity personEntity) {
-        return new PersonPutDTO(
-                personEntity.getName(),
-                personEntity.getEmail(),
-                personEntity.getPassword(),
-                personEntity.getBirthDate(),
-                personEntity.getMotherName(),
-                personEntity.getFatherName(),
-                personEntity.getTelephone()
-        );
-    }
-
 }

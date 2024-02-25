@@ -40,4 +40,25 @@ public class PersonEntity {
 
     private String telephone;
 
+    public PersonEntity(String id, String name, String email, LocalDate birthDate, String motherName, String fatherName, String telephone) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.motherName = motherName;
+        this.fatherName = fatherName;
+        this.telephone = telephone;
+    }
+
+    
+    public PersonEntity(String id, String name, String email,  String motherName, String fatherName, String telephone) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.motherName = motherName;
+        this.fatherName = fatherName;
+        this.telephone = telephone;
+    }
+    
+    
 }

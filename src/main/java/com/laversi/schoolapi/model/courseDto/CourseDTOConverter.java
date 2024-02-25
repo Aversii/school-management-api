@@ -7,9 +7,8 @@ import com.laversi.schoolapi.model.CourseEntity.CourseEntity;
 @Service
 public class CourseDTOConverter {
 
-    public CourseEntity convertToEntity(CoursePostDTO CourseDto, int id) {
+    public CourseEntity convertToEntity(CoursePostDTO CourseDto) {
         return new CourseEntity(
-                id,
                 CourseDto.name()
         );
     }
